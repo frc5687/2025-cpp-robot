@@ -45,38 +45,38 @@ DriveSubsystem::DriveSubsystem(std::unique_ptr<ModuleIO> frontLeft,
           Constants::SwerveDrive::kModuleTranslations.end()));
   m_gyro->Reset();
   PoseEstimator::Config config{};
-  config.odometryXStdDev = 0.08;        // Trust odometry more on smooth field
-  config.baseXYStdDev = 0.15;           // Conservative vision trust
-  config.odometryThetaStdDev = 0.0001;  // Really trust IMU
-  config.baseThetaStdDev = 0.2;         // Dont really trust camera rotations
+  config.odometryXStdDev = 0.08;       // Trust odometry more on smooth field
+  config.baseXYStdDev = 0.15;          // Conservative vision trust
+  config.odometryThetaStdDev = 0.0001; // Really trust IMU
+  config.baseThetaStdDev = 0.2;        // Dont really trust camera rotations
   config.singleTagPenalty = 5.5;
   m_odometryThread =
       std::make_unique<OdometryThread>(m_modules, m_gyro, config);
   StartOdometryThread();
   pathplanner::AutoBuilder::configure(
-      [this]() { return GetPose(); },  // Robot pose supplier
+      [this]() { return GetPose(); }, // Robot pose supplier
       [this](frc::Pose2d pose) {
         ResetPose(pose);
-      },  // Method to reset odometry (will be called if your auto has a
-          // starting pose)
+      }, // Method to reset odometry (will be called if your auto has a
+         // starting pose)
       [this]() {
         return GetChassisSpeeds();
-      },  // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+      }, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
       [this](auto speeds, auto feedforwards) {
         Drive(speeds);
-      },  // Method that will drive the robot given ROBOT RELATIVE
-          // ChassisSpeeds. Also optionally outputs individual module
-          // feedforwards
+      }, // Method that will drive the robot given ROBOT RELATIVE
+         // ChassisSpeeds. Also optionally outputs individual module
+         // feedforwards
       std::make_shared<
-          pathplanner::PPHolonomicDriveController>(  // PPHolonomicController is
-                                                     // the built in path
-                                                     // following controller for
-                                                     // holonomic drive trains
+          pathplanner::PPHolonomicDriveController>( // PPHolonomicController is
+                                                    // the built in path
+                                                    // following controller for
+                                                    // holonomic drive trains
           pathplanner::PIDConstants(5.0, 0.0,
-                                    0.0),           // Translation PID constants
-          pathplanner::PIDConstants(5.0, 0.0, 0.0)  // Rotation PID constants
+                                    0.0),          // Translation PID constants
+          pathplanner::PIDConstants(5.0, 0.0, 0.0) // Rotation PID constants
           ),
-      m_robotConfig,  // The robot configuration
+      m_robotConfig, // The robot configuration
       []() {
         // Boolean supplier that controls when the path will be mirrored for the
         // red alliance This will flip the path being followed to the red side
@@ -88,13 +88,11 @@ DriveSubsystem::DriveSubsystem(std::unique_ptr<ModuleIO> frontLeft,
         }
         return false;
       },
-      this  // Reference to this subsystem to set requirements
+      this // Reference to this subsystem to set requirements
   );
 }
 
-DriveSubsystem::~DriveSubsystem() {
-  StopOdometryThread();
-}
+DriveSubsystem::~DriveSubsystem() { StopOdometryThread(); }
 
 void DriveSubsystem::StartOdometryThread() {
   if (m_odometryThread) {
@@ -116,7 +114,7 @@ void DriveSubsystem::SetOdometryFrequency(units::hertz_t frequency) {
   }
 }
 
-void DriveSubsystem::Drive(const frc::ChassisSpeeds& speeds) {
+void DriveSubsystem::Drive(const frc::ChassisSpeeds &speeds) {
   frc::ChassisSpeeds discretizedSpeeds =
       frc::ChassisSpeeds::Discretize(speeds, 20_ms);
   std::array<frc::SwerveModuleState, 4> moduleStates =
@@ -124,7 +122,7 @@ void DriveSubsystem::Drive(const frc::ChassisSpeeds& speeds) {
   SetModuleStates(moduleStates);
 }
 
-void DriveSubsystem::DriveFieldRelative(const frc::ChassisSpeeds& speeds) {
+void DriveSubsystem::DriveFieldRelative(const frc::ChassisSpeeds &speeds) {
   // Get the current heading from threaded odometry
   auto robotRelative =
       frc::ChassisSpeeds::FromFieldRelativeSpeeds(speeds, GetHeading());
@@ -133,7 +131,7 @@ void DriveSubsystem::DriveFieldRelative(const frc::ChassisSpeeds& speeds) {
 
 void DriveSubsystem::SetModuleStates(
     const std::array<frc::SwerveModuleState,
-                     Constants::SwerveDrive::kModuleCount>& states) {
+                     Constants::SwerveDrive::kModuleCount> &states) {
   wpi::array<frc::SwerveModuleState, Constants::SwerveDrive::kModuleCount>
       desaturatedStates = states;
   frc::SwerveDriveKinematics<Constants::SwerveDrive::kModuleCount>::
@@ -146,7 +144,7 @@ void DriveSubsystem::SetModuleStates(
 }
 
 void DriveSubsystem::Stop() {
-  for (auto& module : m_modules) {
+  for (auto &module : m_modules) {
     module->Stop();
   }
 }
@@ -245,7 +243,7 @@ size_t DriveSubsystem::GetOdometrySuccessRate() const {
   }
   return 0;
 }
-void DriveSubsystem::ResetPose(const frc::Pose2d& pose) {
+void DriveSubsystem::ResetPose(const frc::Pose2d &pose) {
   if (m_odometryThread) {
     m_odometryThread->ResetPose(pose);
   }
@@ -260,13 +258,13 @@ void DriveSubsystem::SetMaxSpeeds(units::meters_per_second_t linear,
 }
 
 void DriveSubsystem::SetBrakeMode(bool brake) {
-  for (auto& module : m_modules) {
+  for (auto &module : m_modules) {
     module->SetBrakeMode(brake);
   }
 }
 
 void DriveSubsystem::ConfigureClosedLoop() {
-  for (auto& module : m_modules) {
+  for (auto &module : m_modules) {
     module->ConfigureClosedLoop();
   }
 }
@@ -280,7 +278,7 @@ DriveSubsystem::GetModuleConnectionStatus() const {
   return status;
 }
 
-bool DriveSubsystem::IsAtPose(const frc::Pose2d& pose,
+bool DriveSubsystem::IsAtPose(const frc::Pose2d &pose,
                               units::meter_t tolerance) const {
   auto currentPose = GetPose();
   auto distance = currentPose.Translation().Distance(pose.Translation());

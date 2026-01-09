@@ -14,13 +14,13 @@ void TunableDouble::Init(nt::DoubleTopic topic, double defaultValue) {
   m_lastChange = m_entry.GetLastChange();
 }
 
-TunableDouble::TunableDouble(const std::string& table, const std::string& topic,
+TunableDouble::TunableDouble(const std::string &table, const std::string &topic,
                              double defaultValue) {
   m_table = nt::NetworkTableInstance::GetDefault().GetTable(table);
   Init(m_table->GetDoubleTopic(topic), defaultValue);
 }
 
-TunableDouble::TunableDouble(const std::string& fullTopicPath,
+TunableDouble::TunableDouble(const std::string &fullTopicPath,
                              double defaultValue) {
   auto inst = nt::NetworkTableInstance::GetDefault();
   Init(inst.GetDoubleTopic(fullTopicPath), defaultValue);
@@ -31,7 +31,7 @@ bool TunableDouble::HasChanged() {
   if (updates.empty())
     return false;
 
-  const auto& last = updates.back();
+  const auto &last = updates.back();
   m_cached = last.value;
   m_lastChange = last.time;
   return true;

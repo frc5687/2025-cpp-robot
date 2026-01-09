@@ -45,4 +45,4 @@ inline constexpr units::meter_t kPositionTolerance = 0.01_m;
 inline constexpr double kP = 3.0;
 inline constexpr double kI = 0.0;
 inline constexpr double kD = 0.0;
-}  // namespace Constants::Elevator
+} // namespace Constants::Elevator

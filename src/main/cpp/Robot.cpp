@@ -10,9 +10,7 @@
 #include <units/angular_velocity.h>
 #include <units/velocity.h>
 
-Robot::Robot() {
-  frc::DriverStation::SilenceJoystickConnectionWarning(true);
-}
+Robot::Robot() { frc::DriverStation::SilenceJoystickConnectionWarning(true); }
 
 void Robot::RobotPeriodic() {
   auto startTime = frc::Timer::GetFPGATimestamp();
@@ -48,15 +46,11 @@ void Robot::TeleopPeriodic() {}
 
 void Robot::TeleopExit() {}
 
-void Robot::TestInit() {
-  frc2::CommandScheduler::GetInstance().CancelAll();
-}
+void Robot::TestInit() { frc2::CommandScheduler::GetInstance().CancelAll(); }
 
 void Robot::TestPeriodic() {}
 void Robot::TestExit() {}
 
 #ifndef RUNNING_FRC_TESTS
-int main() {
-  return frc::StartRobot<Robot>();
-}
+int main() { return frc::StartRobot<Robot>(); }
 #endif

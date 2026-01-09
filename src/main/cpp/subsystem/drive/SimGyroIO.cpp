@@ -1,7 +1,7 @@
 
 #include "subsystem/drive/SimGyroIO.h"
 
-void SimGyroIO::UpdateInputs(GyroIOInputs& inputs, bool isBatched) {
+void SimGyroIO::UpdateInputs(GyroIOInputs &inputs, bool isBatched) {
   const auto currentTime = units::second_t{frc::Timer::GetFPGATimestamp()};
   if (m_lastUpdateTime != 0_s) {
     if (const auto dt = currentTime - m_lastUpdateTime; dt < 100_ms) {
@@ -31,7 +31,7 @@ void SimGyroIO::Reset(units::degree_t angle) {
   m_lastRate = 0_rad_per_s;
 }
 
-void SimGyroIO::UpdateWithOdometry(const frc::ChassisSpeeds& robotSpeeds) {
+void SimGyroIO::UpdateWithOdometry(const frc::ChassisSpeeds &robotSpeeds) {
   // Update the simulated gyro rate based on robot movement, I didn't have a
   // nice way to do this (or not yet).
   m_rate = robotSpeeds.omega;

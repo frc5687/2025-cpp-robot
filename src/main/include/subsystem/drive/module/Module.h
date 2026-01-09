@@ -14,21 +14,21 @@
 #include "units/velocity.h"
 
 class Module {
- public:
+public:
   explicit Module(std::unique_ptr<ModuleIO> io);
 
   // Core functionality
   void Periodic();
-  void SetDesiredState(const frc::SwerveModuleState& state);
-  void SetDesiredState(const frc::SwerveModuleState& state, bool optimize);
+  void SetDesiredState(const frc::SwerveModuleState &state);
+  void SetDesiredState(const frc::SwerveModuleState &state, bool optimize);
   void Stop();
 
   frc::SwerveModuleState GetState() const;
   frc::SwerveModulePosition GetPosition() const;
   frc::SwerveModuleState GetOptimizedState() const { return m_optimizedState; }
-  const ModuleIOInputs& GetInputs() const { return m_inputs; }
+  const ModuleIOInputs &GetInputs() const { return m_inputs; }
 
-  const std::string& GetName() const { return m_name; }
+  const std::string &GetName() const { return m_name; }
   ModulePosition GetModulePosition() const { return m_position; }
   units::millisecond_t GetLastUpdateTime() const { return m_lastUpdateTime; }
 
@@ -38,14 +38,14 @@ class Module {
   units::newton_meter_t GetDriveTorque() const { return m_inputs.driveTorque; }
   void ConfigureClosedLoop();
   bool IsConnected() const;
-  void SetIsBatchedSignals(const bool& isBatched) {
+  void SetIsBatchedSignals(const bool &isBatched) {
     m_isSignalsBatched = isBatched;
   }
   bool IsBatched() const { return m_isSignalsBatched; }
-  ModuleIO& GetModuleIO() { return *m_io; }
-  const ModuleIO& GetModuleIO() const { return *m_io; }
+  ModuleIO &GetModuleIO() { return *m_io; }
+  const ModuleIO &GetModuleIO() const { return *m_io; }
 
- private:
+private:
   std::unique_ptr<ModuleIO> m_io;
 
   ModulePosition m_position;
@@ -68,5 +68,5 @@ class Module {
   static constexpr units::meters_per_second_t kOptimizationThreshold = 0.01_mps;
 
   void LogState();
-  bool ShouldOptimize(const frc::SwerveModuleState& desired) const;
+  bool ShouldOptimize(const frc::SwerveModuleState &desired) const;
 };

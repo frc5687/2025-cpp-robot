@@ -12,11 +12,10 @@
 #include <memory>
 #include <utility>
 
-#include "Constants.h"
 #include "HardwareMap.h"
+#include "commands/drive/DriveMaintainingHeadingCommand.h"
 #include "subsystem/drive/PigeonIO.h"
 #include "subsystem/drive/SimGyroIO.h"
-#include "subsystem/drive/SwerveConstants.h"
 #include "subsystem/drive/module/CTREModuleIO.h"
 #include "subsystem/drive/module/ModuleConfig.h"
 #include "subsystem/drive/module/SimModuleIO.h"
@@ -27,10 +26,10 @@
 RobotContainer::RobotContainer() {
   // Module encoder offsets (tune these per robot)
   constexpr std::array<units::turn_t, 4> kEncoderOffsets{
-      0.079569_tr,                // FL
-      0.43359375_tr - 0.5_tr,     // FR
-      0.35595703125_tr - 0.5_tr,  // BL
-      -0.2431540625_tr + 0.5_tr   // BR
+      0.079569_tr,               // FL
+      0.43359375_tr - 0.5_tr,    // FR
+      0.35595703125_tr - 0.5_tr, // BL
+      -0.2431540625_tr + 0.5_tr  // BR
   };
 
   // bool simulation = true;
@@ -101,25 +100,13 @@ double RobotContainer::ApplyDeadband(double value, double deadband) {
 void RobotContainer::ConfigureBindings() {
   using frc2::cmd::Run;
   using frc2::cmd::RunOnce;
-
-  m_drive->SetDefaultCommand(Run(
-      [this] {
-        const double xInput =
-            ApplyDeadband(-m_driver.GetLeftY(), Constants::kJoystickDeadband);
-        const double yInput =
-            ApplyDeadband(-m_driver.GetLeftX(), Constants::kJoystickDeadband);
-        const double rotInput =
-            ApplyDeadband(-m_driver.GetRightX(), Constants::kJoystickDeadband);
-
-        const auto xVelocity = xInput * Constants::SwerveDrive::kMaxLinearSpeed;
-        const auto yVelocity = yInput * Constants::SwerveDrive::kMaxLinearSpeed;
-        const auto rotVelocity =
-            rotInput * Constants::SwerveDrive::kMaxAngularSpeed;
-
-        m_drive->DriveFieldRelative(
-            frc::ChassisSpeeds{xVelocity, yVelocity, rotVelocity});
-      },
-      {m_drive.get()}));
+  auto driveCommand = DriveMaintainingHeadingCommand(
+      m_drive.get(), [this] { return -m_driver.GetLeftY(); },
+      [this] { return -m_driver.GetLeftX(); },
+      [this] { return -m_driver.GetRightX(); },
+      false // slew limiter
+  );
+  m_drive->SetDefaultCommand(std::move(driveCommand));
 
   m_driver.Square().OnTrue(Run([this] { m_elevator->SetElevatorHeight(0.3_m); },
                                {m_elevator.get()}));

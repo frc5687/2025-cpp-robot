@@ -23,11 +23,12 @@ inline constexpr units::second_t kLogPeriod = 100_ms;
 inline constexpr units::volt_t kNominalVoltage = 12_V;
 inline constexpr double kVoltageCompensation = 12.0;
 inline constexpr double kJoystickDeadband = 0.1;
+inline constexpr double kSteerJoystickDeadband = 0.1;
 
 namespace Field {
 inline const frc::AprilTagFieldLayout kFieldTagLayout =
     frc::AprilTagFieldLayout::LoadField(
         frc::AprilTagField::k2025ReefscapeAndyMark);
-}  // namespace Field
+} // namespace Field
 
-}  // namespace Constants
+} // namespace Constants

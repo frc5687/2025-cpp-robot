@@ -7,14 +7,14 @@
 #include "frc/controller/ProfiledPIDController.h"
 
 class SimElevatorIO : public ElevatorIO {
- public:
+public:
   SimElevatorIO();
   ~SimElevatorIO() = default;
 
-  void UpdateInputs(ElevatorIOInputs& inputs) override;
+  void UpdateInputs(ElevatorIOInputs &inputs) override;
   void SetElevatorHeight(units::meter_t desiredHeight) override;
 
- private:
+private:
   frc::sim::ElevatorSim m_elevatorSim;
   frc::ProfiledPIDController<units::meter> m_pidController;
 };

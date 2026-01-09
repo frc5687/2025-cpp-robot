@@ -9,12 +9,12 @@
 #include <string>
 
 class TunableDouble {
- public:
-  TunableDouble(const std::string& table, const std::string& topic,
+public:
+  TunableDouble(const std::string &table, const std::string &topic,
                 double defaultValue = 0.0);
 
   // Full NT path (e.g., "/SmartDashboard/kP" or "/datatable/kP")
-  explicit TunableDouble(const std::string& fullTopicPath,
+  explicit TunableDouble(const std::string &fullTopicPath,
                          double defaultValue = 0.0);
 
   bool HasChanged();
@@ -22,11 +22,11 @@ class TunableDouble {
 
   int64_t LastChangeUsec() const noexcept { return m_lastChange; }
 
- private:
+private:
   void Init(nt::DoubleTopic topic, double defaultValue);
 
   std::shared_ptr<nt::NetworkTable>
-      m_table;  // optional (unused when full path ctor is used)
+      m_table; // optional (unused when full path ctor is used)
   nt::DoubleTopic m_topic;
   nt::DoubleEntry m_entry;
 

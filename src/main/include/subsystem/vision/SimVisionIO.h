@@ -11,16 +11,16 @@
 #include "subsystem/vision/SimulatedPhotonVisionCamera.h"
 
 class SimVisionIO : public VisionIO {
- public:
+public:
   SimVisionIO();
 
-  void SetRobotPose(const frc::Pose2d& pose) override { m_robotPose = pose; }
-  void UpdateInputs(VisionIOInputs& inputs) override;
+  void SetRobotPose(const frc::Pose2d &pose) override { m_robotPose = pose; }
+  void UpdateInputs(VisionIOInputs &inputs) override;
 
- private:
+private:
   std::shared_ptr<photon::VisionSystemSim> m_visionSim;
   std::unordered_map<std::string, std::unique_ptr<SimulatedPhotonVisionCamera>>
       m_cams;
 
-  frc::Pose2d m_robotPose{};  // updated externally each loop
+  frc::Pose2d m_robotPose{}; // updated externally each loop
 };

@@ -21,11 +21,10 @@
 #include "utils/vision/AprilTagObservation.h"
 
 class PhotonVisionCamera : public Camera {
- public:
-  PhotonVisionCamera(const std::string& name,
-                     const frc::Transform3d& robotToCamera)
-      : m_name{name},
-        m_camera{name},
+public:
+  PhotonVisionCamera(const std::string &name,
+                     const frc::Transform3d &robotToCamera)
+      : m_name{name}, m_camera{name},
         m_estimator{Constants::Field::kFieldTagLayout,
                     photon::PoseStrategy::MULTI_TAG_PNP_ON_COPROCESSOR,
                     robotToCamera},
@@ -40,11 +39,11 @@ class PhotonVisionCamera : public Camera {
       return out;
     }
 
-    const photon::PhotonPipelineResult& latestResult = results.back();
+    const photon::PhotonPipelineResult &latestResult = results.back();
     const units::second_t frameTs = latestResult.GetTimestamp();
 
     if (latestResult.HasTargets()) {
-      for (const auto& t : latestResult.GetTargets()) {
+      for (const auto &t : latestResult.GetTargets()) {
         out.tags.emplace_back(
             AprilTagObservation::FromPhotonVision(t, frameTs));
       }
@@ -67,15 +66,15 @@ class PhotonVisionCamera : public Camera {
       }
       measurement.pose3d = est->estimatedPose;
       measurement.pose = est->estimatedPose.ToPose2d();
-      measurement.xyStdDev = 0.3;     // TODO: clean
-      measurement.thetaStdDev = 0.9;  // TODO: Clean
+      measurement.xyStdDev = 0.3;    // TODO: clean
+      measurement.thetaStdDev = 0.9; // TODO: Clean
       out.poseEstimate.emplace(measurement);
     }
 
     return out;
   }
 
- protected:
+protected:
   const std::string m_name;
   photon::PhotonCamera m_camera;
   photon::PhotonPoseEstimator m_estimator;

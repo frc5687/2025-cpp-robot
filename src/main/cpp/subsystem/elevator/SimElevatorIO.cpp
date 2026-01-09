@@ -14,10 +14,13 @@ SimElevatorIO::SimElevatorIO()
       m_pidController(100, 0, 0,
                       frc::TrapezoidProfile<units::meter>::Constraints(
                           Constants::Elevator::kMaxVelocity,
-                          Constants::Elevator::kMaxAccel)) {}
+                          Constants::Elevator::kMaxAccel))
+ {
+}
 
-void SimElevatorIO::UpdateInputs(ElevatorIOInputs& inputs) {
+void SimElevatorIO::UpdateInputs(ElevatorIOInputs &inputs) {
   m_elevatorSim.Update(20_ms);
+
   inputs.elevatorPosition = m_elevatorSim.GetPosition();
   inputs.elevatorVelocity = m_elevatorSim.GetVelocity();
   inputs.timestamp = frc::Timer::GetFPGATimestamp();
@@ -29,3 +32,4 @@ void SimElevatorIO::SetElevatorHeight(units::meter_t desiredHeight) {
 
   m_elevatorSim.SetInputVoltage(units::volt_t{pidOutput});
 }
+

@@ -22,7 +22,7 @@
 #include "subsystem/LoggedSubsystem.h"
 
 class DriveSubsystem : public LoggedSubsystem {
- public:
+public:
   DriveSubsystem(std::unique_ptr<ModuleIO> frontLeft,
                  std::unique_ptr<ModuleIO> frontRight,
                  std::unique_ptr<ModuleIO> backLeft,
@@ -31,11 +31,11 @@ class DriveSubsystem : public LoggedSubsystem {
 
   ~DriveSubsystem();
 
-  void Drive(const frc::ChassisSpeeds& speeds);
-  void DriveFieldRelative(const frc::ChassisSpeeds& speeds);
+  void Drive(const frc::ChassisSpeeds &speeds);
+  void DriveFieldRelative(const frc::ChassisSpeeds &speeds);
   void SetModuleStates(
       const std::array<frc::SwerveModuleState,
-                       Constants::SwerveDrive::kModuleCount>& states);
+                       Constants::SwerveDrive::kModuleCount> &states);
 
   void Stop();
   void LockWheels();
@@ -56,18 +56,18 @@ class DriveSubsystem : public LoggedSubsystem {
   void StartOdometryThread();
   void StopOdometryThread();
   void SetOdometryFrequency(units::hertz_t frequency);
-  void ResetPose(const frc::Pose2d& pose);
+  void ResetPose(const frc::Pose2d &pose);
 
   // Odometry stats
   units::second_t GetOdometryLoopTime() const;
   size_t GetOdometrySuccessRate() const;
 
- public:
+public:
   void SetMaxSpeeds(units::meters_per_second_t linear,
                     units::radians_per_second_t angular);
   void SetBrakeMode(bool brake);
   void ConfigureClosedLoop();
-  bool IsAtPose(const frc::Pose2d& pose,
+  bool IsAtPose(const frc::Pose2d &pose,
                 units::meter_t tolerance = 0.1_m) const;
   std::array<bool, Constants::SwerveDrive::kModuleCount>
   GetModuleConnectionStatus() const;
@@ -78,14 +78,14 @@ class DriveSubsystem : public LoggedSubsystem {
     return m_odometryThread;
   }
 
- protected:
+protected:
   void UpdateInputs() override;
   void LogTelemetry() override;
 
- private:
+private:
   template <typename T>
-  std::array<T, Constants::SwerveDrive::kModuleCount> GetModuleData(
-      T (Module::*getter)() const) const;
+  std::array<T, Constants::SwerveDrive::kModuleCount>
+  GetModuleData(T (Module::*getter)() const) const;
 
   std::vector<std::unique_ptr<Module>> m_test;
   std::array<std::unique_ptr<Module>, Constants::SwerveDrive::kModuleCount>

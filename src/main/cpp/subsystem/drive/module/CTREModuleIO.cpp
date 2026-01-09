@@ -9,11 +9,10 @@
 using namespace Constants::SwerveDrive::Module;
 using namespace ctre::phoenix6;
 
-CTREModuleIO::CTREModuleIO(const DeviceIDs& ids, const ModuleConfig& config)
+CTREModuleIO::CTREModuleIO(const DeviceIDs &ids, const ModuleConfig &config)
     : m_driveMotor(ids.drive.id, ids.drive.bus),
       m_steerMotor(ids.steer.id, ids.steer.bus),
-      m_encoder(ids.encoder.id, ids.encoder.bus),
-      m_config(config),
+      m_encoder(ids.encoder.id, ids.encoder.bus), m_config(config),
       m_driveVelocitySignal(m_driveMotor.GetVelocity()),
       m_drivePositionSignal(m_driveMotor.GetPosition()),
       m_driveCurrentSignal(m_driveMotor.GetSupplyCurrent()),
@@ -86,19 +85,19 @@ void CTREModuleIO::ConfigureDevices() {
   m_steerMotor.GetConfigurator().Apply(m_steerConfig);
 }
 
-void CTREModuleIO::UpdateInputs(ModuleIOInputs& inputs, bool isBatched) {
+void CTREModuleIO::UpdateInputs(ModuleIOInputs &inputs, bool isBatched) {
   // I can probably clean this up
-  if (!isBatched) {  // If we dont use the blocking batched call, update inputs
+  if (!isBatched) { // If we dont use the blocking batched call, update inputs
     ctre::phoenix6::BaseStatusSignal::RefreshAll(m_synchedSignals);
   }
   ctre::phoenix6::BaseStatusSignal::RefreshAll(m_batchedSignals);
 
   const units::turn_t driveMotorPos =
       ctre::phoenix6::BaseStatusSignal::GetLatencyCompensatedValue(
-          m_drivePositionSignal, m_driveVelocitySignal);  // motor rotor turns
+          m_drivePositionSignal, m_driveVelocitySignal); // motor rotor turns
   const units::turn_t steerPos =
       ctre::phoenix6::BaseStatusSignal::GetLatencyCompensatedValue(
-          m_steerPositionSignal, m_steerVelocitySignal);  // mechanism turns
+          m_steerPositionSignal, m_steerVelocitySignal); // mechanism turns
 
   const units::turn_t coupledDriveMotorPos =
       driveMotorPos - (steerPos * kCouplingRatio);
@@ -135,7 +134,7 @@ void CTREModuleIO::UpdateInputs(ModuleIOInputs& inputs, bool isBatched) {
   inputs.encoderConnected = m_encoderPositionSignal.GetStatus().IsOK();
 }
 
-void CTREModuleIO::SetDesiredState(const frc::SwerveModuleState& state) {
+void CTREModuleIO::SetDesiredState(const frc::SwerveModuleState &state) {
   // --- Steer: command in TURNS, enable wrap in config
   const units::turn_t targetSteerTurns = state.angle.Radians();
   m_steerMotor.SetControl(
@@ -176,12 +175,10 @@ void CTREModuleIO::SetBrakeMode(bool brake) {
 }
 
 void CTREModuleIO::ResetDriveEncoder() {
-  m_driveMotor.SetPosition(0_tr);  // zero mechanism turns
+  m_driveMotor.SetPosition(0_tr); // zero mechanism turns
 }
 
-ModuleConfig CTREModuleIO::GetModuleConfig() {
-  return m_config;
-}
+ModuleConfig CTREModuleIO::GetModuleConfig() { return m_config; }
 
 void CTREModuleIO::ConfigureClosedLoop() {
   m_driveConfig.Slot0.kP = PID::DriveVelocity::kP;

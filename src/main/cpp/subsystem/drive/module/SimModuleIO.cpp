@@ -13,7 +13,7 @@
 
 using namespace Constants::SwerveDrive::Module;
 
-SimModuleIO::SimModuleIO(const ModuleConfig& config)
+SimModuleIO::SimModuleIO(const ModuleConfig &config)
     : m_config(config),
       m_driveSim(frc::LinearSystemId::DCMotorSystem(kDriveMotor, kDriveInertia,
                                                     kDriveGearRatio),
@@ -39,7 +39,7 @@ SimModuleIO::SimModuleIO(const ModuleConfig& config)
   m_steerPid.EnableContinuousInput(-kPi, kPi);
 }
 
-void SimModuleIO::UpdateInputs(ModuleIOInputs& inputs, bool IsBatched) {
+void SimModuleIO::UpdateInputs(ModuleIOInputs &inputs, bool IsBatched) {
   const auto batteryVoltage =
       units::volt_t{frc::RobotController::GetBatteryVoltage()};
 
@@ -77,7 +77,7 @@ void SimModuleIO::UpdateInputs(ModuleIOInputs& inputs, bool IsBatched) {
   inputs.encoderConnected = true;
 }
 
-void SimModuleIO::SetDesiredState(const frc::SwerveModuleState& state) {
+void SimModuleIO::SetDesiredState(const frc::SwerveModuleState &state) {
   frc::SwerveModuleState optimized = state;
   optimized.Optimize(frc::Rotation2d{m_steerAngle});
 
@@ -101,9 +101,7 @@ void SimModuleIO::SetDesiredState(const frc::SwerveModuleState& state) {
   m_steerAppliedVolts = steerPIDOutput;
 }
 
-ModuleConfig SimModuleIO::GetModuleConfig() {
-  return m_config;
-}
+ModuleConfig SimModuleIO::GetModuleConfig() { return m_config; }
 
 void SimModuleIO::Stop() {
   m_driveAppliedVolts = 0_V;

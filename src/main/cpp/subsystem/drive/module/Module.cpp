@@ -10,8 +10,7 @@
 #include "utils/Logger.h"
 
 Module::Module(std::unique_ptr<ModuleIO> io)
-    : m_io(std::move(io)),
-      m_position(m_io->GetModuleConfig().modulePosition),
+    : m_io(std::move(io)), m_position(m_io->GetModuleConfig().modulePosition),
       m_name(ModulePositionToString(m_position)) {}
 
 void Module::Periodic() {
@@ -19,11 +18,11 @@ void Module::Periodic() {
   LogState();
 }
 
-void Module::SetDesiredState(const frc::SwerveModuleState& state) {
+void Module::SetDesiredState(const frc::SwerveModuleState &state) {
   SetDesiredState(state, true);
 }
 
-void Module::SetDesiredState(const frc::SwerveModuleState& state,
+void Module::SetDesiredState(const frc::SwerveModuleState &state,
                              bool optimize) {
   m_desiredState = state;
 
@@ -55,17 +54,11 @@ frc::SwerveModulePosition Module::GetPosition() const {
   return frc::SwerveModulePosition{m_inputs.drivePosition, m_inputs.steerAngle};
 }
 
-void Module::ResetDrivePosition() const {
-  m_io->ResetDriveEncoder();
-}
+void Module::ResetDrivePosition() const { m_io->ResetDriveEncoder(); }
 
-void Module::SetBrakeMode(bool brake) {
-  m_io->SetBrakeMode(brake);
-}
+void Module::SetBrakeMode(bool brake) { m_io->SetBrakeMode(brake); }
 
-void Module::ConfigureClosedLoop() {
-  m_io->ConfigureClosedLoop();
-}
+void Module::ConfigureClosedLoop() { m_io->ConfigureClosedLoop(); }
 
 units::ampere_t Module::GetCurrentDraw() const {
   return units::ampere_t{
@@ -77,13 +70,13 @@ bool Module::IsConnected() const {
          m_inputs.encoderConnected;
 }
 
-bool Module::ShouldOptimize(const frc::SwerveModuleState& desired) const {
+bool Module::ShouldOptimize(const frc::SwerveModuleState &desired) const {
   return units::math::abs(desired.speed) > kOptimizationThreshold;
 }
 
 void Module::LogState() {
   const std::string prefix = fmt::format("Module/{}/", m_name);
-  auto& logger = Logger::Instance();
+  auto &logger = Logger::Instance();
 
   logger.Log(prefix + "Velocity", m_inputs.driveVelocity.value());
   logger.Log(prefix + "Position", m_inputs.drivePosition.value());

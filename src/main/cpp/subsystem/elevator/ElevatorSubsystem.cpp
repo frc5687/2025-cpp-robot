@@ -5,16 +5,14 @@
 
 #include <utility>
 
+#include "subsystem/LoggedSubsystem.h"
 #include "subsystem/elevator/ElevatorConstants.h"
 #include "subsystem/elevator/ElevatorIO.h"
-#include "subsystem/LoggedSubsystem.h"
 
 ElevatorSubsystem::ElevatorSubsystem(std::unique_ptr<ElevatorIO> io)
     : LoggedSubsystem("Elevator"), m_io(std::move(io)) {}
 
-void ElevatorSubsystem::UpdateInputs() {
-  m_io->UpdateInputs(m_inputs);
-}
+void ElevatorSubsystem::UpdateInputs() { m_io->UpdateInputs(m_inputs); }
 
 void ElevatorSubsystem::SetElevatorHeight(units::meter_t desiredHeight) {
   m_desiredPosition = desiredHeight;

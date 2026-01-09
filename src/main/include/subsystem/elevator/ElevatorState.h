@@ -10,7 +10,7 @@
 #include <optional>
 
 class ElevatorState {
- public:
+public:
   struct Snapshot {
     units::second_t stamp{0_s};
 
@@ -21,10 +21,10 @@ class ElevatorState {
     std::optional<units::meter_t> goal{};
   };
 
-  void Update(const Snapshot& s) { m_state = s; }
+  void Update(const Snapshot &s) { m_state = s; }
   Snapshot GetSnapshot() const { return m_state; }
   void SetGoal(units::meter_t g) { m_state.goal = g; }
 
- private:
+private:
   Snapshot m_state{};
 };

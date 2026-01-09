@@ -17,12 +17,12 @@
  * integration.
  */
 class LoggedSubsystem : public frc2::SubsystemBase {
- public:
+public:
   /**
    * @brief Construct a logged subsystem.
    * @param name Subsystem name used for logging and NetworkTables
    */
-  explicit LoggedSubsystem(const std::string& name);
+  explicit LoggedSubsystem(const std::string &name);
 
   /**
    * @brief Main periodic function that handles logging automatically.
@@ -32,7 +32,7 @@ class LoggedSubsystem : public frc2::SubsystemBase {
    */
   void Periodic() final;
 
- protected:
+protected:
   /**
    * @brief Update inputs from hardware.
    *
@@ -58,14 +58,13 @@ class LoggedSubsystem : public frc2::SubsystemBase {
    * @param key The key to log (will be prefixed with subsystem name)
    * @param value The value to log
    */
-  template <typename T>
-  void Log(const std::string& key, const T& value) {
+  template <typename T> void Log(const std::string &key, const T &value) {
     Logger::Instance().Log(m_name + "/" + key, value);
   }
 
   std::string m_name;
 
- private:
+private:
   std::shared_ptr<nt::NetworkTable> m_table;
   units::second_t m_lastLogTime{0};
 

@@ -10,7 +10,7 @@ namespace Bus {
 inline constexpr std::string_view kDriveTrain = "DriveTrain";
 inline constexpr std::string_view kRio = "rio";
 inline constexpr std::string_view kStructure = "SuperStructure";
-}  // namespace Bus
+} // namespace Bus
 
 namespace CAN {
 namespace TalonFX {
@@ -28,19 +28,19 @@ inline constexpr CANDevice BackRightSteer{0, Bus::kDriveTrain};
 
 inline constexpr CANDevice LeftElevator{9, Bus::kDriveTrain};
 inline constexpr CANDevice RightElevator{8, Bus::kDriveTrain};
-}  // namespace TalonFX
+} // namespace TalonFX
 
 namespace CANCoder {
 inline constexpr CANDevice FrontLeftEncoder{2, Bus::kDriveTrain};
 inline constexpr CANDevice FrontRightEncoder{1, Bus::kDriveTrain};
 inline constexpr CANDevice BackLeftEncoder{3, Bus::kDriveTrain};
 inline constexpr CANDevice BackRightEncoder{0, Bus::kDriveTrain};
-}  // namespace CANCoder
+} // namespace CANCoder
 
 namespace Pidgeon2 {
 inline constexpr CANDevice IMU{0, Bus::kDriveTrain};
-}  // namespace Pidgeon2
+} // namespace Pidgeon2
 
-}  // namespace CAN
+} // namespace CAN
 
-}  // namespace HardwareMap
+} // namespace HardwareMap

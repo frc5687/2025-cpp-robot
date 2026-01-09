@@ -30,11 +30,11 @@ struct ModuleIOInputs {
 };
 
 class ModuleIO {
- public:
+public:
   virtual ~ModuleIO() = default;
 
-  virtual void UpdateInputs(ModuleIOInputs& inputs, bool isBatched = false) = 0;
-  virtual void SetDesiredState(const frc::SwerveModuleState& state) = 0;
+  virtual void UpdateInputs(ModuleIOInputs &inputs, bool isBatched = false) = 0;
+  virtual void SetDesiredState(const frc::SwerveModuleState &state) = 0;
   virtual ModuleConfig GetModuleConfig() = 0;
   virtual void Stop() = 0;
   virtual void SetBrakeMode(bool brake) {}

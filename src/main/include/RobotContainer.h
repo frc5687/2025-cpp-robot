@@ -15,12 +15,12 @@
 #include "subsystem/vision/VisionSubsystem.h"
 
 class RobotContainer {
- public:
+public:
   RobotContainer();
 
   frc2::CommandPtr GetAutonomousCommand();
 
- private:
+private:
   void ConfigureBindings();
   static double ApplyDeadband(double value, double deadband = 0.1);
   std::unique_ptr<DriveSubsystem> m_drive = nullptr;

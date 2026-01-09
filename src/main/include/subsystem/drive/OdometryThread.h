@@ -21,11 +21,11 @@
 #include "module/Module.h"
 
 class OdometryThread {
- public:
+public:
   OdometryThread(std::array<std::unique_ptr<Module>,
-                            Constants::SwerveDrive::kModuleCount>& modules,
-                 std::unique_ptr<GyroIO>& gyro,
-                 const PoseEstimator::Config& estimatorConfig);
+                            Constants::SwerveDrive::kModuleCount> &modules,
+                 std::unique_ptr<GyroIO> &gyro,
+                 const PoseEstimator::Config &estimatorConfig);
   ~OdometryThread();
 
   void Start();
@@ -40,8 +40,8 @@ class OdometryThread {
   GetModuleStates() const;
   frc::ChassisSpeeds GetChassisSpeeds() const;
 
-  void ResetPose(const frc::Pose2d& pose);
-  void ResetPoseKeepRotation(const frc::Pose2d& pose);
+  void ResetPose(const frc::Pose2d &pose);
+  void ResetPoseKeepRotation(const frc::Pose2d &pose);
   void SetUpdateFrequency(units::hertz_t frequency);
 
   units::second_t GetAverageLoopTime() const { return m_averageLoopTime; }
@@ -50,15 +50,15 @@ class OdometryThread {
   size_t GetFailedBatches() const { return m_failedBatches; }
   size_t GetTotalIterations() const { return m_totalIterations; }
 
-  void AddVisionMeasurement(const VisionMeasurement& measurement);
-  void AddVisionMeasurement(const frc::Pose3d& pose3d,
+  void AddVisionMeasurement(const VisionMeasurement &measurement);
+  void AddVisionMeasurement(const frc::Pose3d &pose3d,
                             units::second_t timestamp, int tagCount = 1,
                             double avgDistance = 2.0, double confidence = 1.0,
                             double ambiguity = 0.0);
   void SetVisionEnabled(bool enabled);
   bool IsVisionEnabled() const;
 
- private:
+private:
   void PeriodicUpdate();
   bool SetupBatchedSignals();
   bool UpdateBatchedInputs();
@@ -71,12 +71,12 @@ class OdometryThread {
   std::unique_ptr<frc::Notifier> m_notifier;
   std::atomic<bool> m_isRunning{false};
 
-  std::array<std::unique_ptr<Module>, Constants::SwerveDrive::kModuleCount>&
-      m_modules;
-  std::unique_ptr<GyroIO>& m_gyro;
+  std::array<std::unique_ptr<Module>, Constants::SwerveDrive::kModuleCount>
+      &m_modules;
+  std::unique_ptr<GyroIO> &m_gyro;
   GyroIOInputs m_gyroInputs{};
 
-  std::array<ctre::phoenix6::BaseStatusSignal*,
+  std::array<ctre::phoenix6::BaseStatusSignal *,
              Constants::SwerveDrive::Odometry::kTotalSignals>
       m_batchedSignals{};
   bool m_allModulesAreCTRE{false};

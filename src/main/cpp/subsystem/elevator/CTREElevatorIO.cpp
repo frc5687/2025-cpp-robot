@@ -7,8 +7,8 @@
 #include "units/velocity.h"
 #include "units/voltage.h"
 
-CTREElevatorIO::CTREElevatorIO(const CANDevice& leftMotor,
-                               const CANDevice& rightMotor)
+CTREElevatorIO::CTREElevatorIO(const CANDevice &leftMotor,
+                               const CANDevice &rightMotor)
     : m_leftMotor(leftMotor.id, leftMotor.bus),
       m_rightMotor(rightMotor.id, rightMotor.bus),
       m_leftMotorPositionSignal(m_leftMotor.GetPosition()),
@@ -20,9 +20,7 @@ CTREElevatorIO::CTREElevatorIO(const CANDevice& leftMotor,
       m_batchSignals{&m_leftMotorPositionSignal,  &m_leftMotorVelocitySignal,
                      &m_leftCurrentSignal,        &m_rightMotorPositionSignal,
                      &m_rightMotorVelocitySignal, &m_rightCurrentSignal},
-      m_leftController(0_tr),
-      m_rightController(0_tr),
-      m_leftVoltage(0_V),
+      m_leftController(0_tr), m_rightController(0_tr), m_leftVoltage(0_V),
       m_rightVoltage(0_V) {
   m_leftConfig.MotorOutput.Inverted =
       Constants::Elevator::kLeftInverted
@@ -68,7 +66,7 @@ CTREElevatorIO::CTREElevatorIO(const CANDevice& leftMotor,
   m_rightMotor.GetConfigurator().Apply(m_rightConfig);
 }
 
-void CTREElevatorIO::UpdateInputs(ElevatorIOInputs& inputs) {
+void CTREElevatorIO::UpdateInputs(ElevatorIOInputs &inputs) {
   ctre::phoenix6::BaseStatusSignal::RefreshAll(m_batchSignals);
 
   inputs.leftMotorPosition = m_leftMotorPositionSignal.GetValue();

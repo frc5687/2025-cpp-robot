@@ -31,7 +31,7 @@ inline constexpr double kSteerGearRatio = (48.0 / 18.0) * (96.0 / 16.0);
 // x44 version
 // inline constexpr double kSteerGearRatio = (42.0 / 12.0) * (96.0 / 16.0);
 inline constexpr double kCouplingRatio =
-    45.0 / 15.0;  // Inverse of the last stage, where we link to the bevel gear
+    45.0 / 15.0; // Inverse of the last stage, where we link to the bevel gear
 inline constexpr double kFrictionCoefficient = 1.3;
 
 inline constexpr frc::DCMotor kDriveMotor = frc::DCMotor::KrakenX60FOC();
@@ -49,15 +49,15 @@ inline constexpr units::meters_per_second_t kMaxModuleLinearSpeed =
     ((kDriveMotor.freeSpeed / kDriveGearRatio) * kWheelRadius) / 1_rad;
 
 inline constexpr units::ampere_t kDriveSlipCurrent =
-    120_A;  // TODO: Tune, this is the max stator current to prevent sliping of
-            // the wheels
+    120_A; // TODO: Tune, this is the max stator current to prevent sliping of
+           // the wheels
 inline constexpr units::ampere_t kDriveSupplyCurrentLimit = 80_A;
 inline constexpr units::ampere_t kSteerSupplyCurrentLimit = 40_A;
 
 inline constexpr bool kDriveInverted =
-    false;  // true is clockwise positive, false is counter clockwise positive
+    false; // true is clockwise positive, false is counter clockwise positive
 inline constexpr bool kSteerInverted =
-    false;  // true is clockwise positive, false is counter clockwise positive
+    false; // true is clockwise positive, false is counter clockwise positive
 
 namespace PID {
 namespace DriveVelocity {
@@ -73,7 +73,7 @@ inline constexpr double kSimD = 0.0;
 inline constexpr units::volt_t kSimS = 0.0_V;
 inline constexpr auto kSimV = 2.35_V / 1_mps;
 inline constexpr auto kSimA = 0.0_V / 1_mps_sq;
-}  // namespace DriveVelocity
+} // namespace DriveVelocity
 
 namespace SteerPosition {
 inline constexpr double kP = 100.0;
@@ -90,9 +90,9 @@ inline constexpr double kSimD = 0.0;
 inline constexpr units::volt_t kSimS = 1.0_V;
 inline constexpr auto kSimV = 0.0_V / 1_rad_per_s;
 inline constexpr auto kSimA = 0.0_V / 1_rad_per_s_sq;
-}  // namespace SteerPosition
-}  // namespace PID
-}  // namespace Module
+} // namespace SteerPosition
+} // namespace PID
+} // namespace Module
 
 /**
  * Coordinate System
@@ -118,10 +118,10 @@ inline constexpr units::kilogram_t kMass = 45_kg;
 
 inline constexpr std::array<frc::Translation2d, kModuleCount>
     kModuleTranslations{
-        frc::Translation2d{+kWheelBase / 2, +kTrackWidth / 2},  // (+, +)
-        frc::Translation2d{+kWheelBase / 2, -kTrackWidth / 2},  // (+, -)
-        frc::Translation2d{-kWheelBase / 2, +kTrackWidth / 2},  // (-, +)
-        frc::Translation2d{-kWheelBase / 2, -kTrackWidth / 2},  // (-, -)
+        frc::Translation2d{+kWheelBase / 2, +kTrackWidth / 2}, // (+, +)
+        frc::Translation2d{+kWheelBase / 2, -kTrackWidth / 2}, // (+, -)
+        frc::Translation2d{-kWheelBase / 2, +kTrackWidth / 2}, // (-, +)
+        frc::Translation2d{-kWheelBase / 2, -kTrackWidth / 2}, // (-, -)
     };
 
 /*
@@ -145,6 +145,6 @@ inline constexpr size_t kSignalsPerModule = 5;
 inline constexpr size_t kIMUSignals = 2;
 inline constexpr size_t kTotalSignals =
     kModuleCount * kSignalsPerModule + kIMUSignals;
-}  // namespace Odometry
+} // namespace Odometry
 
-};  // namespace Constants::SwerveDrive
+}; // namespace Constants::SwerveDrive

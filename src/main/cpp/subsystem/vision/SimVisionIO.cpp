@@ -20,12 +20,12 @@
 using units::degree_t;
 using units::meter_t;
 
-inline const AprilTagObservation* BestTag(
-    const std::vector<AprilTagObservation>& tags) {
+inline const AprilTagObservation *
+BestTag(const std::vector<AprilTagObservation> &tags) {
   if (tags.empty())
     return nullptr;
   return &*std::ranges::max_element(
-      tags, [](const AprilTagObservation& a, const AprilTagObservation& b) {
+      tags, [](const AprilTagObservation &a, const AprilTagObservation &b) {
         if (a.Confidence() != b.Confidence())
           return a.Confidence() < b.Confidence();
         return a.Area() < b.Area();
@@ -50,16 +50,16 @@ SimVisionIO::SimVisionIO()
           "SouthCamera", Constants::Vision::kRobotToSouthCam, m_visionSim));
 }
 
-void SimVisionIO::UpdateInputs(VisionIOInputs& inputs) {
+void SimVisionIO::UpdateInputs(VisionIOInputs &inputs) {
   m_visionSim->Update(m_robotPose);
 
   inputs.cameraTagObservations.clear();
   inputs.visionPoseMeasurements.clear();
 
-  for (auto& [name, cam] : m_cams) {
+  for (auto &[name, cam] : m_cams) {
     Camera::VisionResult res = cam->GetLatestResult();
 
-    if (const AprilTagObservation* best = BestTag(res.tags)) {
+    if (const AprilTagObservation *best = BestTag(res.tags)) {
       inputs.cameraTagObservations.erase(name);
       inputs.cameraTagObservations.emplace(name, *best);
     } else {

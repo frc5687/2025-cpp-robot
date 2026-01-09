@@ -22,7 +22,8 @@ inline units::turn_t WrapToHalfTurns(units::turn_t t) {
 }
 
 // Wheel-side: rad/s -> m/s (cancel angle dimension explicitly)
-inline units::meters_per_second_t WheelOmegaToMps(
-    units::radians_per_second_t wheel_omega, units::meter_t wheel_radius) {
-  return (wheel_omega / 1_rad) * wheel_radius;  // (rad/s)/rad * m = m/s
+inline units::meters_per_second_t
+WheelOmegaToMps(units::radians_per_second_t wheel_omega,
+                units::meter_t wheel_radius) {
+  return (wheel_omega / 1_rad) * wheel_radius; // (rad/s)/rad * m = m/s
 }

@@ -14,7 +14,7 @@ using units::radian_t;
 
 inline constexpr frc::Transform3d kRobotToNWCam{
     frc::Translation3d{meter_t{0.0}, meter_t{0.0}, meter_t{0.0}},
-    frc::Rotation3d{0_rad, 0_rad, 0_rad}  // yaw/pitch/roll (radians)
+    frc::Rotation3d{0_rad, 0_rad, 0_rad} // yaw/pitch/roll (radians)
 };
 
 inline constexpr frc::Transform3d kRobotToNECam{
@@ -30,4 +30,4 @@ inline const std::unordered_map<std::string, frc::Transform3d> kTransformMap = {
     {"limelight-center", kRobotToNECam},
     {"South_Camera", kRobotToSouthCam},
 };
-}  // namespace Constants::Vision
+} // namespace Constants::Vision
